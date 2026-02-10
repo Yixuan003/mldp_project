@@ -1,0 +1,114 @@
+# GIT COMMANDS FOR PROJECT SUBMISSION
+# Copy and paste these commands into your terminal/PowerShell
+
+# ==========================================
+# INITIAL SETUP (if not already done)
+# ==========================================
+
+# Configure Git (one-time setup)
+git config --global user.name "Loh Yi Xuan"
+git config --global user.email "your-email@connect.np.edu.sg"
+
+# ==========================================
+# LOCAL COMMIT PROCESS
+# ==========================================
+
+# 1. Check current status
+git status
+
+# 2. Add all files to staging
+git add .
+
+# 3. Commit with descriptive message
+git commit -m "Final project submission - Complete ML pipeline with all sections"
+
+# 4. Create a tag for final version
+git tag -a v1.0-final -m "Final submission version for CAI2C08 MLDP Project"
+
+# ==========================================
+# GITHUB PUSH (FIRST TIME)
+# ==========================================
+
+# If you haven't created GitHub repo yet:
+# 1. Go to https://github.com
+# 2. Click "New repository"
+# 3. Name it: "mldp-student-performance-ai"
+# 4. Keep it PUBLIC (so tutors can access)
+# 5. DON'T initialize with README (you already have one)
+# 6. Click "Create repository"
+
+# Then run these commands:
+git branch -M main
+git remote add origin https://github.com/YOUR-USERNAME/mldp-student-performance-ai.git
+git push -u origin main
+git push origin v1.0-final
+
+# ==========================================
+# SUBSEQUENT UPDATES (after first push)
+# ==========================================
+
+# If you make changes later:
+git add .
+git commit -m "Description of what you changed"
+git push
+
+# ==========================================
+# VIEW COMMIT HISTORY
+# ==========================================
+
+# See all commits
+git log --oneline --graph --all
+
+# Get commit hash for Word document
+git rev-parse HEAD
+
+# ==========================================
+# ADDITIONAL VERSIONS (for revision tracking)
+# ==========================================
+
+# If you submit revisions:
+git add .
+git commit -m "Revision 1: Updated feature engineering section"
+git tag -a v1.1-revision1 -m "First revision"
+git push
+git push origin v1.1-revision1
+
+# ==========================================
+# TROUBLESHOOTING
+# ==========================================
+
+# If you get "refusing to merge unrelated histories" error:
+git pull origin main --allow-unrelated-histories
+
+# If you need to undo last commit (but keep changes):
+git reset --soft HEAD~1
+
+# If you need to see which files changed:
+git diff
+
+# If you accidentally added wrong files:
+git reset HEAD file-to-unstage.txt
+
+# ==========================================
+# COPY YOUR GITHUB URL
+# ==========================================
+
+# After pushing, your GitHub repo URL will be:
+# https://github.com/YOUR-USERNAME/mldp-student-performance-ai
+
+# Copy this URL for your Word document submission!
+
+# To get the commit hash (ID):
+# Run: git log -1 --format="%H"
+# Copy the long string (e.g., abc123def456...)
+# Add this to your Word document
+
+# ==========================================
+# NOTES
+# ==========================================
+
+# - Replace YOUR-USERNAME with your actual GitHub username
+# - If you created repo with different name, use that name
+# - Make sure .git folder exists (run: ls -Force to check)
+# - All commands assume you're in the project folder
+# - For PowerShell, all these commands work as-is
