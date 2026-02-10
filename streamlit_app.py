@@ -14,7 +14,7 @@ from datetime import datetime
 # Page configuration
 st.set_page_config(
     page_title="Student Performance Predictor",
-    page_icon="🎓",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -39,25 +39,31 @@ st.markdown("""
         font-size: 3rem;
         font-weight: bold;
         color: #1f77b4;
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+        display: inline-block;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 </style>
 """, unsafe_allow_html=True)
 
 # Title
-st.markdown('<h1 class="main-header">🎓 Student Performance Predictor</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header">Student Performance Predictor</h1>', unsafe_allow_html=True)
 st.markdown("### Predict final exam scores based on AI usage and study patterns")
 st.markdown("---")
 
 # Sidebar - Project Information
 with st.sidebar:
-    st.header("📊 Project Information")
+    st.header("Project Information")
     st.write("**Student:** Loh Yi Xuan")
     st.write("**Matric:** 2404544E")
     st.write("**Course:** CAI2C08 MLDP")
     st.write("**Institution:** Temasek Polytechnic")
     st.markdown("---")
     
-    st.header("ℹ️ About This App")
+    st.header("About This App")
     st.write("""
     This machine learning application predicts student final exam scores 
     based on their AI usage patterns and traditional study factors.
@@ -85,7 +91,7 @@ model, scaler, feature_names = load_model()
 
 if model is None:
     st.error("""
-    ⚠️ **Model files not found!**
+    **Model files not found!**
     
     Please run the following code in your Jupyter notebook first:
     ```python
@@ -99,26 +105,26 @@ if model is None:
     st.stop()
 
 # Main content area - Input Form
-st.header("📝 Enter Student Information")
+st.header("Enter Student Information")
 
 # Create three columns for organized input
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.subheader("👤 Demographics")
+    st.subheader("Demographics")
     age = st.slider("Age", 16, 25, 19)
     gender = st.selectbox("Gender", ["Male", "Female"])
     grade_level = st.selectbox("Grade Level", ["1st Year", "2nd Year", "3rd Year", "4th Year"])
 
 with col2:
-    st.subheader("📚 Study Factors")
+    st.subheader("Study Factors")
     study_hours = st.slider("Study Hours per Day", 0.0, 10.0, 3.5, 0.5)
     sleep_hours = st.slider("Sleep Hours per Day", 4.0, 12.0, 7.0, 0.5)
     social_media_hours = st.slider("Social Media Hours per Day", 0.0, 10.0, 2.5, 0.5)
     attendance_pct = st.slider("Attendance Percentage", 0, 100, 85)
 
 with col3:
-    st.subheader("🤖 AI Usage")
+    st.subheader("AI Usage")
     uses_ai = st.selectbox("Uses AI Tools?", ["Yes", "No"])
     
     if uses_ai == "Yes":
@@ -137,7 +143,7 @@ with col3:
 
 # Additional factors
 st.markdown("---")
-st.subheader("📊 Additional Academic Factors")
+st.subheader("Additional Academic Factors")
 col4, col5, col6 = st.columns(3)
 
 with col4:
@@ -158,7 +164,7 @@ st.markdown("---")
 col_predict1, col_predict2, col_predict3 = st.columns([1, 2, 1])
 
 with col_predict2:
-    predict_button = st.button("🎯 PREDICT FINAL SCORE", use_container_width=True, type="primary")
+    predict_button = st.button("PREDICT FINAL SCORE", use_container_width=True, type="primary")
 
 if predict_button:
     # Create input dataframe (match the exact features used in training)
@@ -210,76 +216,76 @@ if predict_button:
     # Scale the input using the fitted scaler
     input_scaled = scaler.transform(input_encoded)
     
+    # Convert back to DataFrame with feature names to avoid sklearn warning
+    input_scaled_df = pd.DataFrame(input_scaled, columns=feature_names)
+    
     try:
-        # Make prediction using scaled input
-        prediction = model.predict(input_scaled)[0]
+        # Make prediction using scaled input with feature names
+        prediction = model.predict(input_scaled_df)[0]
         
         # Display prediction
         st.markdown("---")
         st.markdown(f"""
         <div class="prediction-box">
-            <h2>📊 PREDICTED FINAL SCORE</h2>
+            <h2 style="color: #1f77b4; margin-bottom: 0.5rem;">PREDICTED FINAL SCORE</h2>
             <p class="prediction-score">{prediction:.1f} / 100</p>
         </div>
         """, unsafe_allow_html=True)
         
         # Performance category
         if prediction >= 70:
-            category = "🌟 High Performer"
-            emoji = "🎉"
+            category = "High Performer"
             color = "green"
             message = "Excellent! Keep up the great work!"
         elif prediction >= 50:
-            category = "📚 Average Performer"
-            emoji = "👍"
+            category = "Average Performer"
             color = "orange"
             message = "Good effort! Consider improving study consistency and AI usage patterns."
         else:
-            category = "⚠️ At-Risk Student"
-            emoji = "🚨"
+            category = "At-Risk Student"
             color = "red"
             message = "Warning: Intervention recommended. Focus on fundamentals and reduce AI dependency."
         
-        st.markdown(f"### {emoji} Performance Category: {category}")
+        st.markdown(f"### Performance Category: {category}")
         st.markdown(f"**Expected deviation:** ±10.2 points")
         st.info(message)
         
         # Recommendations based on input
         st.markdown("---")
-        st.subheader("💡 Personalized Recommendations")
+        st.subheader("Personalized Recommendations")
         
         recommendations = []
         
         if concept_understanding < 6:
-            recommendations.append("📖 **Focus on strengthening concept understanding** - This is the #1 predictor of success!")
+            recommendations.append("**Focus on strengthening concept understanding** - This is the #1 predictor of success!")
         
         if ai_dependency > 7 and prediction < 60:
-            recommendations.append("⚠️ **Reduce AI dependency** - Over-reliance on AI may be hindering deep learning")
+            recommendations.append("**Reduce AI dependency** - Over-reliance on AI may be hindering deep learning")
         
         if ai_purpose == "Homework Help" and uses_ai == "Yes":
-            recommendations.append("🔄 **Change AI usage to Research/Exam Prep** - Students who use AI for research score ~15 points higher")
+            recommendations.append("**Change AI usage to Research/Exam Prep** - Students who use AI for research score ~15 points higher")
         
         if study_hours < 3:
-            recommendations.append("⏰ **Increase study time** - Aim for at least 3-4 hours daily study")
+            recommendations.append("**Increase study time** - Aim for at least 3-4 hours daily study")
         
         if attendance_pct < 80:
-            recommendations.append("🎓 **Improve attendance** - Class attendance correlates with better performance")
+            recommendations.append("**Improve attendance** - Class attendance correlates with better performance")
         
         if sleep_hours < 6:
-            recommendations.append("😴 **Get more sleep** - Sleep deprivation affects academic performance")
+            recommendations.append("**Get more sleep** - Sleep deprivation affects academic performance")
         
         if study_consistency < 6:
-            recommendations.append("📅 **Build consistent study habits** - Consistency matters more than cramming")
+            recommendations.append("**Build consistent study habits** - Consistency matters more than cramming")
         
         if not recommendations:
-            recommendations.append("✅ **Keep it up!** Your study patterns look great. Maintain this balance!")
+            recommendations.append("**Keep it up!** Your study patterns look great. Maintain this balance!")
         
         for rec in recommendations:
             st.write(rec)
         
         # Show feature importance context
         st.markdown("---")
-        st.subheader("📊 What Matters Most?")
+        st.subheader("What Matters Most?")
         st.write("""
         Based on our analysis of 1000 students:
         1. **Concept Understanding** (Most important - 0.43 correlation)
@@ -290,7 +296,7 @@ if predict_button:
         """)
         
     except Exception as e:
-        st.error(f"⚠️ Prediction error: {str(e)}")
+        st.error(f"Prediction error: {str(e)}")
         st.write("""
         **Troubleshooting tips:**
         1. Ensure model was trained with same feature names
@@ -303,7 +309,7 @@ if predict_button:
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 2rem 0;">
-    <p>🎓 <strong>CAI2C08 - Machine Learning for Developers Project</strong></p>
+    <p><strong>CAI2C08 - Machine Learning for Developers Project</strong></p>
     <p>Temasek Polytechnic | School of Informatics & IT</p>
     <p>Developed by: Loh Yi Xuan (2404544E)</p>
 </div>
