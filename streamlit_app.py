@@ -1,10 +1,3 @@
-"""
-AI IMPACT ON STUDENT PERFORMANCE - PREDICTION APP
-Student: Loh Yi Xuan (2404544E)
-Course: CAI2C08 - Machine Learning for Developers
-Temasek Polytechnic
-"""
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -48,33 +41,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
-# Title
-st.markdown('<h1 class="main-header">Student Performance Predictor</h1>', unsafe_allow_html=True)
-st.markdown("### Predict final exam scores based on AI usage and study patterns")
-st.markdown("---")
-
-# Sidebar - Project Information
-with st.sidebar:
-    st.header("Project Information")
-    st.write("**Student:** Loh Yi Xuan")
-    st.write("**Matric:** 2404544E")
-    st.write("**Course:** CAI2C08 MLDP")
-    st.write("**Institution:** Temasek Polytechnic")
-    st.markdown("---")
-    
-    st.header("About This App")
-    st.write("""
-    This machine learning application predicts student final exam scores 
-    based on their AI usage patterns and traditional study factors.
-    
-    **Model Used:** Random Forest Regressor  
-    **Accuracy:** R² = 0.1798  
-    **Average Error:** ±10.2 points
-    """)
-    
-    st.markdown("---")
-    st.write(f"**Last Updated:** {datetime.now().strftime('%d %B %Y')}")
 
 # Load model, scaler, and feature names
 @st.cache_resource
@@ -304,13 +270,3 @@ if predict_button:
         3. Verify pickle files are not corrupted
         4. Consider saving and loading feature column names from training
         """)
-
-# Footer
-st.markdown("---")
-st.markdown("""
-<div style="text-align: center; color: #666; padding: 2rem 0;">
-    <p><strong>CAI2C08 - Machine Learning for Developers Project</strong></p>
-    <p>Temasek Polytechnic | School of Informatics & IT</p>
-    <p>Developed by: Loh Yi Xuan (2404544E)</p>
-</div>
-""", unsafe_allow_html=True)
